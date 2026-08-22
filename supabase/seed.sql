@@ -1,0 +1,67 @@
+-- ============================================================
+-- CivicAudit — Seed Data (OPTIONAL)
+-- Run this LAST, after schema.sql, policies.sql, functions.sql
+-- ============================================================
+-- Supabase does not allow inserting directly into auth.users from
+-- the SQL editor with a usable password, so seed accounts must be
+-- created through the app's Register page first. Once you've
+-- registered a couple of test accounts (see README "Test accounts"),
+-- copy their UUIDs from Supabase → Authentication → Users, paste
+-- them below, and run this script to populate sample data.
+-- ============================================================
+
+-- STEP 1: Replace these with real UUIDs after registering test users.
+-- do $$
+-- declare
+--   v_owner_id uuid := 'PASTE-OWNER-USER-UUID-HERE';
+--   v_pro_id   uuid := 'PASTE-PROFESSIONAL-USER-UUID-HERE';
+--   v_project_id uuid;
+-- begin
+--   -- Make the professional "Verified" so it shows the verified badge
+--   update public.profiles
+--     set verification_status = 'Verified',
+--         professional_type = 'Contractor',
+--         company_name = 'Summit Builders Pvt Ltd',
+--         location = 'Chennai, Tamil Nadu',
+--         bio = 'Full-service contractor specializing in residential renovation and structural work.',
+--         experience_years = 9
+--     where id = v_pro_id;
+--
+--   update public.profiles
+--     set location = 'Chennai, Tamil Nadu'
+--     where id = v_owner_id;
+--
+--   -- Sample portfolio entries for the professional
+--   insert into public.portfolios (professional_id, title, description, project_type, project_value, completion_year)
+--   values
+--     (v_pro_id, 'Adyar Residence Renovation', 'Complete interior and structural renovation of a 3BHK independent house.', 'Renovation', 3200000, 2024),
+--     (v_pro_id, 'Velachery Commercial Fit-out', 'Ground-up fit-out for a 4,000 sq ft retail space.', 'Construction', 5800000, 2023);
+--
+--   -- Sample project posted by the owner
+--   insert into public.projects (owner_id, title, description, project_type, location, budget_min, budget_max, expected_duration, start_date, deadline, requirements, status)
+--   values (
+--     v_owner_id,
+--     'Independent House Renovation — Adyar',
+--     'Looking to renovate a 20-year-old independent house: re-flooring, plumbing overhaul, kitchen remodel, and exterior repainting.',
+--     'Renovation', 'Adyar, Chennai', 1500000, 2500000, '3-4 months',
+--     current_date + 14, current_date + 21,
+--     'Must be able to provide references from at least 2 completed renovation projects in Chennai.',
+--     'Open'
+--   ) returning id into v_project_id;
+--
+--   -- Sample bid from the professional
+--   insert into public.bids (project_id, contractor_id, quotation_amount, estimated_duration, proposal, status)
+--   values (
+--     v_project_id, v_pro_id, 2100000, '14 weeks',
+--     'We propose a phased renovation starting with structural assessment, followed by plumbing/electrical overhaul, then finishing work. Includes a 12-month workmanship warranty.',
+--     'Pending'
+--   );
+-- end $$;
+
+-- ============================================================
+-- Nothing to run automatically — uncomment and edit the block
+-- above once you have real user UUIDs. This file intentionally
+-- ships commented-out so a fresh database never seeds fake data
+-- tied to non-existent auth users.
+-- ============================================================
+select 'seed.sql loaded — edit and uncomment the block above with real user UUIDs to insert sample data' as note;

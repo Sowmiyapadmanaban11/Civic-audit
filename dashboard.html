@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Dashboard — CivicAudit</title>
+<link rel="stylesheet" href="css/style.css" />
+<link rel="stylesheet" href="css/dashboard.css" />
+<link rel="stylesheet" href="css/projects.css" />
+<link rel="stylesheet" href="css/responsive.css" />
+</head>
+<body>
+
+<div class="app-shell">
+  <div id="sidebar-mount"></div>
+
+  <div class="main-col">
+    <div id="topbar-mount"></div>
+
+    <div class="page-body">
+
+      <div class="kpi-grid" id="kpi-grid">
+        <div class="loading-row" style="grid-column:1/-1;"><div class="spinner"></div> Loading dashboard…</div>
+      </div>
+
+      <!-- Owner view -->
+      <div id="owner-view" class="hidden">
+        <div class="section-card">
+          <div class="section-card-head">
+            <h3>My Projects</h3>
+            <a href="post-project.html" class="btn btn-primary btn-sm">+ Post Project</a>
+          </div>
+          <div class="section-card-body table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr><th>Project</th><th>Type</th><th>Location</th><th>Budget</th><th>Bids</th><th>Status</th><th>Posted</th><th></th></tr>
+              </thead>
+              <tbody id="owner-projects-body">
+                <tr><td colspan="8"><div class="loading-row"><div class="spinner"></div></div></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="section-card">
+          <div class="section-card-head"><h3>Recent Bids</h3></div>
+          <div class="section-card-body" id="owner-recent-bids">
+            <div class="loading-row"><div class="spinner"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Professional view -->
+      <div id="pro-view" class="hidden">
+        <div class="section-card">
+          <div class="section-card-head">
+            <h3>Recommended Projects</h3>
+            <a href="projects.html" class="btn btn-secondary btn-sm">Browse All</a>
+          </div>
+          <div class="section-card-body">
+            <div class="project-grid" id="recommended-projects">
+              <div class="loading-row" style="grid-column:1/-1;"><div class="spinner"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-card">
+          <div class="section-card-head"><h3>My Bids</h3></div>
+          <div class="section-card-body table-wrap">
+            <table class="data-table">
+              <thead><tr><th>Project</th><th>Bid Amount</th><th>Duration</th><th>Status</th><th>Date</th></tr></thead>
+              <tbody id="pro-bids-body">
+                <tr><td colspan="5"><div class="loading-row"><div class="spinner"></div></div></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/config.js"></script>
+<script src="js/supabase.js"></script>
+<script src="js/ai.js"></script>
+<script src="js/dashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Portfolio — CivicAudit</title>
+<link rel="stylesheet" href="css/style.css" />
+<link rel="stylesheet" href="css/dashboard.css" />
+<link rel="stylesheet" href="css/projects.css" />
+<link rel="stylesheet" href="css/auth.css" />
+<link rel="stylesheet" href="css/responsive.css" />
+</head>
+<body>
+
+<div class="app-shell">
+  <div id="sidebar-mount"></div>
+
+  <div class="main-col">
+    <div id="topbar-mount"></div>
+
+    <div class="page-body">
+      <div id="add-portfolio-card" class="section-card">
+        <div class="section-card-head"><h3>Add Portfolio Project</h3></div>
+        <div class="section-card-body">
+          <form id="portfolio-form" novalidate>
+            <div class="form-alert"></div>
+            <div class="field"><label for="pf_title">Project title</label><input type="text" id="pf_title" required /></div>
+            <div class="field"><label for="pf_description">Description</label><textarea id="pf_description" rows="3"></textarea></div>
+            <div class="flex gap-12" style="flex-wrap:wrap;">
+              <div class="field" style="flex:1;min-width:160px;">
+                <label for="pf_type">Project type</label>
+                <select id="pf_type">
+                  <option>Construction</option><option>Renovation</option><option>Demolition</option>
+                  <option>Land Development</option><option>Interior Design</option><option>Other</option>
+                </select>
+              </div>
+              <div class="field" style="flex:1;min-width:140px;">
+                <label for="pf_value">Project value (₹)</label>
+                <input type="number" id="pf_value" min="0" />
+              </div>
+              <div class="field" style="flex:1;min-width:120px;">
+                <label for="pf_year">Completion year</label>
+                <input type="number" id="pf_year" min="1990" max="2100" />
+              </div>
+            </div>
+            <div class="field"><label for="pf_image">Image</label><input type="file" id="pf_image" accept="image/*" /></div>
+            <button type="submit" class="btn btn-primary">Add to Portfolio</button>
+          </form>
+        </div>
+      </div>
+
+      <div class="section-card">
+        <div class="section-card-head"><h3>My Portfolio</h3></div>
+        <div class="section-card-body">
+          <div class="portfolio-grid" id="portfolio-grid">
+            <div class="loading-row" style="grid-column:1/-1;"><div class="spinner"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/config.js"></script>
+<script src="js/supabase.js"></script>
+<script src="js/portfolio.js"></script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Messages — CivicAudit</title>
+<link rel="stylesheet" href="css/style.css" />
+<link rel="stylesheet" href="css/dashboard.css" />
+<link rel="stylesheet" href="css/projects.css" />
+<link rel="stylesheet" href="css/responsive.css" />
+</head>
+<body>
+
+<div class="app-shell">
+  <div id="sidebar-mount"></div>
+
+  <div class="main-col">
+    <div id="topbar-mount"></div>
+
+    <div class="page-body">
+      <div class="messages-shell">
+        <div class="conv-list" id="conv-list">
+          <div class="loading-row"><div class="spinner"></div></div>
+        </div>
+        <div class="chat-pane" id="chat-pane">
+          <div class="empty-state" style="margin:auto;">
+            <div class="icon">✉</div>
+            Select a conversation to start messaging.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/config.js"></script>
+<script src="js/supabase.js"></script>
+<script src="js/messages.js"></script>
+</body>
+</html>

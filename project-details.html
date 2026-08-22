@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Project Details — CivicAudit</title>
+<link rel="stylesheet" href="css/style.css" />
+<link rel="stylesheet" href="css/dashboard.css" />
+<link rel="stylesheet" href="css/projects.css" />
+<link rel="stylesheet" href="css/auth.css" />
+<link rel="stylesheet" href="css/responsive.css" />
+</head>
+<body>
+
+<div class="app-shell">
+  <div id="sidebar-mount"></div>
+
+  <div class="main-col">
+    <div id="topbar-mount"></div>
+
+    <div class="page-body" id="page-body" style="max-width:900px;">
+      <div class="loading-row"><div class="spinner"></div> Loading project…</div>
+    </div>
+  </div>
+</div>
+
+<!-- Bid submission modal (professional) -->
+<div class="modal-overlay hidden" id="bid-modal">
+  <div class="modal">
+    <div class="modal-head"><h3>Submit a Bid</h3><button class="modal-close" data-close-modal>✕</button></div>
+    <div class="modal-body">
+      <form id="bid-form" novalidate>
+        <div class="form-alert"></div>
+        <div class="field">
+          <label for="quotation_amount">Quotation amount (₹)</label>
+          <input type="number" id="quotation_amount" name="quotation_amount" min="0" required />
+          <div class="field-error"></div>
+        </div>
+        <div class="field">
+          <label for="estimated_duration">Estimated duration</label>
+          <input type="text" id="estimated_duration" name="estimated_duration" placeholder="e.g. 10 weeks" required />
+          <div class="field-error"></div>
+        </div>
+        <div class="field">
+          <label for="proposal">Proposal</label>
+          <textarea id="proposal" name="proposal" rows="4" placeholder="Describe your approach, team, and why you're a fit." required></textarea>
+          <div class="field-error"></div>
+        </div>
+        <div class="field">
+          <label for="additional_notes">Additional notes (optional)</label>
+          <textarea id="additional_notes" name="additional_notes" rows="2"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Submit Bid</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Progress update modal (assigned professional) -->
+<div class="modal-overlay hidden" id="update-modal">
+  <div class="modal">
+    <div class="modal-head"><h3>Post a Progress Update</h3><button class="modal-close" data-close-modal>✕</button></div>
+    <div class="modal-body">
+      <form id="update-form" novalidate>
+        <div class="form-alert"></div>
+        <div class="field">
+          <label for="u_title">Update title</label>
+          <input type="text" id="u_title" name="title" placeholder="e.g. Foundation work completed" required />
+        </div>
+        <div class="field">
+          <label for="u_description">Description</label>
+          <textarea id="u_description" name="description" rows="3"></textarea>
+        </div>
+        <div class="field">
+          <label for="u_stage">Stage</label>
+          <select id="u_stage" name="stage" required>
+            <option>Planning</option>
+            <option>Site Preparation</option>
+            <option>Foundation</option>
+            <option>Construction</option>
+            <option>Finishing</option>
+            <option>Completed</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="u_progress">Progress percentage</label>
+          <input type="number" id="u_progress" name="progress_percentage" min="0" max="100" required />
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Post Update</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/config.js"></script>
+<script src="js/supabase.js"></script>
+<script src="js/ai.js"></script>
+<script src="js/project-details.js"></script>
+</body>
+</html>

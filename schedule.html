@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Site Visits — CivicAudit</title>
+<link rel="stylesheet" href="css/style.css" />
+<link rel="stylesheet" href="css/dashboard.css" />
+<link rel="stylesheet" href="css/projects.css" />
+<link rel="stylesheet" href="css/auth.css" />
+<link rel="stylesheet" href="css/responsive.css" />
+</head>
+<body>
+
+<div class="app-shell">
+  <div id="sidebar-mount"></div>
+
+  <div class="main-col">
+    <div id="topbar-mount"></div>
+
+    <div class="page-body">
+      <div class="section-card" id="new-visit-card">
+        <div class="section-card-head"><h3>Schedule a Site Visit</h3></div>
+        <div class="section-card-body">
+          <form id="visit-form" novalidate>
+            <div class="form-alert"></div>
+            <div class="flex gap-12" style="flex-wrap:wrap;">
+              <div class="field" style="flex:1; min-width:160px;">
+                <label for="scheduled_date">Date</label>
+                <input type="date" id="scheduled_date" name="scheduled_date" required />
+              </div>
+              <div class="field" style="flex:1; min-width:160px;">
+                <label for="scheduled_time">Time</label>
+                <input type="time" id="scheduled_time" name="scheduled_time" required />
+              </div>
+            </div>
+            <div class="field">
+              <label for="visit_location">Location</label>
+              <input type="text" id="visit_location" name="location" placeholder="Site address" required />
+            </div>
+            <div class="field">
+              <label for="visit_notes">Notes (optional)</label>
+              <textarea id="visit_notes" name="notes" rows="2"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Schedule Visit</button>
+          </form>
+        </div>
+      </div>
+
+      <div class="section-card">
+        <div class="section-card-head"><h3>Upcoming & Past Visits</h3></div>
+        <div class="section-card-body table-wrap">
+          <table class="data-table">
+            <thead><tr><th>Date</th><th>Time</th><th>Location</th><th>With</th><th>Status</th><th></th></tr></thead>
+            <tbody id="visits-body">
+              <tr><td colspan="6"><div class="loading-row"><div class="spinner"></div></div></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/config.js"></script>
+<script src="js/supabase.js"></script>
+<script src="js/schedule.js"></script>
+</body>
+</html>

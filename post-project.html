@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Post a Project — CivicAudit</title>
+<link rel="stylesheet" href="css/style.css" />
+<link rel="stylesheet" href="css/dashboard.css" />
+<link rel="stylesheet" href="css/auth.css" />
+<link rel="stylesheet" href="css/responsive.css" />
+</head>
+<body>
+
+<div class="app-shell">
+  <div id="sidebar-mount"></div>
+
+  <div class="main-col">
+    <div id="topbar-mount"></div>
+
+    <div class="page-body" style="max-width:760px;">
+
+      <form id="post-project-form" class="section-card" style="padding:26px;" novalidate>
+        <div class="form-alert"></div>
+
+        <div class="field">
+          <label for="title">Project title</label>
+          <input type="text" id="title" name="title" placeholder="e.g. Independent House Renovation — Adyar" required />
+          <div class="field-error"></div>
+        </div>
+
+        <div class="field">
+          <label for="project_type">Project type</label>
+          <select id="project_type" name="project_type" required>
+            <option value="">Select type</option>
+            <option>Construction</option>
+            <option>Renovation</option>
+            <option>Demolition</option>
+            <option>Land Development</option>
+            <option>Interior Design</option>
+            <option>Property Sale</option>
+            <option>Other</option>
+          </select>
+          <div class="field-error"></div>
+        </div>
+
+        <div class="field">
+          <label for="description">Description</label>
+          <textarea id="description" name="description" rows="4" placeholder="Describe scope of work, current condition, and expectations." required></textarea>
+          <div class="field-error"></div>
+        </div>
+
+        <div class="field">
+          <label for="location">Property location</label>
+          <input type="text" id="location" name="location" placeholder="e.g. Adyar, Chennai" required />
+          <div class="field-error"></div>
+        </div>
+
+        <div class="flex gap-12">
+          <div class="field" style="flex:1;">
+            <label for="budget_min">Budget minimum (₹)</label>
+            <input type="number" id="budget_min" name="budget_min" min="0" required />
+            <div class="field-error"></div>
+          </div>
+          <div class="field" style="flex:1;">
+            <label for="budget_max">Budget maximum (₹)</label>
+            <input type="number" id="budget_max" name="budget_max" min="0" required />
+            <div class="field-error"></div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="expected_duration">Expected duration</label>
+          <input type="text" id="expected_duration" name="expected_duration" placeholder="e.g. 3-4 months" />
+        </div>
+
+        <div class="flex gap-12">
+          <div class="field" style="flex:1;">
+            <label for="start_date">Preferred start date</label>
+            <input type="date" id="start_date" name="start_date" />
+          </div>
+          <div class="field" style="flex:1;">
+            <label for="deadline">Deadline to receive bids</label>
+            <input type="date" id="deadline" name="deadline" />
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="requirements">Requirements (optional)</label>
+          <textarea id="requirements" name="requirements" rows="3" placeholder="Any specific certifications, references, or constraints bidders should know about."></textarea>
+        </div>
+
+        <div class="field">
+          <label for="documents">Upload documents (optional)</label>
+          <input type="file" id="documents" name="documents" multiple accept=".pdf,.jpg,.jpeg,.png,.docx" />
+          <small>Site plans, reference images, or specification sheets. PDF, DOCX, JPG or PNG.</small>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block mt-16">Post Project</button>
+      </form>
+
+      <!-- AI Cost Estimator helper card -->
+      <div class="section-card">
+        <div class="section-card-head">
+          <h3>AI Cost Estimator <span class="badge badge-info" style="margin-left:8px;">Algorithmic estimate</span></h3>
+        </div>
+        <div class="section-card-body">
+          <p class="text-muted mt-8" style="margin-bottom:16px;">Get a ballpark cost range before you post — based on project type, area, location and material quality. This is a rule-based estimate, not a certified quote.</p>
+          <div class="flex gap-12" style="flex-wrap:wrap;">
+            <div class="field" style="flex:1; min-width:140px;">
+              <label for="est_area">Area (sqft)</label>
+              <input type="number" id="est_area" min="0" placeholder="1500" />
+            </div>
+            <div class="field" style="flex:1; min-width:140px;">
+              <label for="est_quality">Material quality</label>
+              <select id="est_quality">
+                <option>Economy</option>
+                <option selected>Standard</option>
+                <option>Premium</option>
+              </select>
+            </div>
+          </div>
+          <button type="button" id="run-estimate-btn" class="btn btn-secondary btn-sm">Estimate Cost</button>
+          <div id="estimate-result" class="mt-16 hidden">
+            <div class="kpi-grid" style="grid-template-columns:repeat(3,1fr);">
+              <div class="kpi-card"><div class="kpi-value" id="est-min">—</div><div class="kpi-label">Minimum</div></div>
+              <div class="kpi-card"><div class="kpi-value" id="est-avg">—</div><div class="kpi-label">Average</div></div>
+              <div class="kpi-card"><div class="kpi-value" id="est-max">—</div><div class="kpi-label">Maximum</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/config.js"></script>
+<script src="js/supabase.js"></script>
+<script src="js/ai.js"></script>
+<script src="js/projects.js"></script>
+</body>
+</html>

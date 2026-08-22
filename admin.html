@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Admin — CivicAudit</title>
+<link rel="stylesheet" href="css/style.css" />
+<link rel="stylesheet" href="css/dashboard.css" />
+<link rel="stylesheet" href="css/responsive.css" />
+</head>
+<body>
+
+<div class="app-shell">
+  <div id="sidebar-mount"></div>
+
+  <div class="main-col">
+    <div id="topbar-mount"></div>
+
+    <div class="page-body">
+      <div class="kpi-grid" id="admin-kpis">
+        <div class="loading-row" style="grid-column:1/-1;"><div class="spinner"></div></div>
+      </div>
+
+      <div class="tabs">
+        <div class="tab active" data-admin-tab="users">Users</div>
+        <div class="tab" data-admin-tab="professionals">Professionals</div>
+        <div class="tab" data-admin-tab="projects">Projects</div>
+        <div class="tab" data-admin-tab="bids">Bids</div>
+        <div class="tab" data-admin-tab="reports">Reported Content</div>
+      </div>
+
+      <div class="section-card">
+        <div class="section-card-body table-wrap" id="admin-content">
+          <div class="loading-row"><div class="spinner"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/config.js"></script>
+<script src="js/supabase.js"></script>
+<script src="js/admin.js"></script>
+</body>
+</html>
