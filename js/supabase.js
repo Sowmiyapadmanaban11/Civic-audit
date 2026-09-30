@@ -176,51 +176,97 @@ function escapeHtml(str) {
 
 // ---------- App shell (sidebar + topbar), shared across all authenticated pages ----------
 
-const SIDE_NAV_ITEMS = [
-  { page: "dashboard.html", icon: "▦", tip: "Dashboard" },
-  { page: "projects.html", icon: "▤", tip: "Projects" },
-  { page: "bids.html", icon: "⇄", tip: "Bids" },
-  { page: "messages.html", icon: "✉", tip: "Messages" },
-  { page: "schedule.html", icon: "🗓", tip: "Site Visits" },
-  { page: "portfolio.html", icon: "◆", tip: "Portfolio" },
-  { page: "notifications.html", icon: "🔔", tip: "Notifications" },
-  { page: "reviews.html", icon: "★", tip: "Reviews" },
-  { page: "profile.html", icon: "◎", tip: "Profile" },
-];
+// Display names for the three account types (database values stay owner / professional / admin)
+const ROLE_LABELS = { owner: "User", professional: "Builder", admin: "Admin" };
+
+// Each account type only sees the pages that are relevant to it.
+const NAV_BY_ROLE = {
+  owner: [
+    { page: "dashboard.html", icon: "▦", label: "Dashboard" },
+    { page: "projects.html", icon: "▤", label: "Post Project" },
+    { page: "bids.html", icon: "⇄", label: "Received Bids" },
+    { page: "messages.html", icon: "✉", label: "Messages" },
+    { page: "schedule.html", icon: "🗓", label: "Site Visits" },
+    { page: "notifications.html", icon: "🔔", label: "Notifications" },
+    { page: "reviews.html", icon: "★", label: "Reviews" },
+    { page: "profile.html", icon: "◎", label: "My Profile" },
+  ],
+  professional: [
+    { page: "dashboard.html", icon: "▦", label: "Dashboard" },
+    { page: "projects.html", icon: "▤", label: "Browse Projects" },
+    { page: "bids.html", icon: "⇄", label: "My Bids" },
+    { page: "messages.html", icon: "✉", label: "Messages" },
+    { page: "schedule.html", icon: "🗓", label: "Site Visits" },
+    { page: "portfolio.html", icon: "◆", label: "Portfolio" },
+    { page: "notifications.html", icon: "🔔", label: "Notifications" },
+    { page: "reviews.html", icon: "★", label: "Reviews" },
+    { page: "profile.html", icon: "◎", label: "My Profile" },
+  ],
+  admin: [
+    { page: "admin.html", icon: "⚙", label: "Admin Panel" },
+    { page: "notifications.html", icon: "🔔", label: "Notifications" },
+    { page: "profile.html", icon: "◎", label: "My Profile" },
+  ],
+};
+
+function roleHome(role) {
+  return role === "admin" ? "admin.html" : "dashboard.html";
+}
 
 /**
  * Renders the sidebar + topbar shell into #sidebar-mount / #topbar-mount,
- * and returns the current user's profile (or redirects to login if none).
- * eyebrowText/titleText describe the current page in the topbar.
+ * and returns the current user's profile. Shows only the menu items and
+ * pages that belong to the logged-in account type (User / Builder / Admin).
  */
 async function renderShell({ activePage, eyebrowText, titleText, showSearch = false }) {
   const session = await requireAuth();
   if (!session) return null;
 
+  const profile = await getCurrentProfile();
+  if (!profile) {
+    const body = document.querySelector(".page-body");
+    if (body) body.innerHTML = '<div class="empty-state">Could not load your profile. Please <a href="login.html" style="color:var(--accent)">log in again</a>.</div>';
+    return null;
+  }
+
+  const role = profile.role;
+  const items = NAV_BY_ROLE[role] || NAV_BY_ROLE.owner;
+
+  // Page protection: send people away from pages that are not for their account type
+  const allowed = items.map((i) => i.page);
+  if (!allowed.includes(activePage) || (role === "admin" && activePage === "dashboard.html")) {
+    window.location.href = roleHome(role);
+    return null;
+  }
+
   const sideMount = document.getElementById("sidebar-mount");
   if (sideMount) {
-    let items = SIDE_NAV_ITEMS;
-    const profile = await getCurrentProfile();
-    if (profile?.role === "admin") {
-      items = [...items, { page: "admin.html", icon: "⚙", tip: "Admin" }];
-    }
     sideMount.innerHTML = `
       <aside class="sidebar">
-        <a href="dashboard.html" class="brand-mark">CA</a>
+        <a href="${roleHome(role)}" class="brand side-brand">
+          <span class="brand-mark">CA</span>
+          <span class="brand-text">CivicAudit<small>${ROLE_LABELS[role] || ""} Portal</small></span>
+        </a>
         <nav class="side-nav">
           ${items
             .map(
               (item) => `
-            <a href="${item.page}" class="side-link ${activePage === item.page ? "active" : ""}">
-              <span>${item.icon}</span>
-              <span class="tip">${item.tip}</span>
+            <a href="${item.page}" class="side-link ${activePage === item.page ? "active" : ""}" title="${item.label}">
+              <span class="side-icon">${item.icon}</span>
+              <span class="side-label">${item.label}</span>
             </a>`
             )
             .join("")}
         </nav>
         <div class="side-bottom">
-          <img class="side-avatar" data-user-avatar src="assets/images/avatar-placeholder.svg" alt="Avatar" />
-          <a href="#" data-logout class="side-link" title="Log out"><span>⏻</span><span class="tip">Log out</span></a>
+          <div class="side-user">
+            <img class="side-avatar" data-user-avatar src="assets/images/avatar-placeholder.svg" alt="Avatar" />
+            <div class="side-user-info">
+              <div class="side-user-name" data-user-name></div>
+              <div class="side-user-role" data-user-role></div>
+            </div>
+          </div>
+          <a href="#" data-logout class="side-link" title="Log out"><span class="side-icon">⏻</span><span class="side-label">Log out</span></a>
         </div>
       </aside>`;
   }
@@ -241,7 +287,7 @@ async function renderShell({ activePage, eyebrowText, titleText, showSearch = fa
       </header>`;
   }
 
-  const profile = await initShell();
+  await initShell(profile);
   markUnreadNotifBadge();
   return profile;
 }
@@ -265,13 +311,13 @@ async function markUnreadNotifBadge() {
 }
 
 /** Populates the sidebar/topbar with the logged in user's name + role, and wires logout buttons. */
-async function initShell() {
-  const profile = await getCurrentProfile();
+async function initShell(prefetched) {
+  const profile = prefetched || (await getCurrentProfile());
   document.querySelectorAll("[data-user-name]").forEach((el) => {
     if (profile) el.textContent = profile.full_name || profile.email;
   });
   document.querySelectorAll("[data-user-role]").forEach((el) => {
-    if (profile) el.textContent = profile.role === "owner" ? "Property Owner" : profile.professional_type || "Professional";
+    if (profile) el.textContent = ROLE_LABELS[profile.role] || "User";
   });
   document.querySelectorAll("[data-user-avatar]").forEach((el) => {
     if (profile?.profile_image) el.src = profile.profile_image;

@@ -5,8 +5,8 @@
 // Find them in: Supabase Dashboard → Project Settings → API
 // ============================================================
 
-const SUPABASE_URL = "https://urjoekotmekhqnpjyomh.supabase.co";
-const SUPABASE_ANON_KEY = "sb_publishable_onsj8D006GY_m5Oxqe2f5w_3B99AGw_";
+const SUPABASE_URL = "https://wgwderoovtdpgejqwios.supabase.co";
+const SUPABASE_ANON_KEY = "sb_publishable_syhjPWmQB8Z7cD7Mctw0ZQ_Pv9jCtTt";
 
 // Storage bucket names (must match supabase/schema.sql)
 const BUCKETS = {

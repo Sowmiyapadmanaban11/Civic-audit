@@ -21,9 +21,11 @@
     flex-direction:row; justify-content:space-around; padding: 10px 6px;
     border-right:none; border-top:1px solid var(--border-soft); z-index: 60;
   }
-  .sidebar .brand-mark, .side-bottom{ display:none; }
+  .sidebar .side-brand, .side-bottom{ display:none; }
   .side-nav{ flex-direction:row; justify-content:space-around; }
-  .side-link .tip{ display:none; }
+  .side-link .side-label{ display:none; }
+  .side-link{ width:auto; padding:10px 12px; }
+  .sidebar{ align-items:center; overflow:visible; }
   .main-col{ padding-bottom: 70px; }
 
   .topbar{ padding: 14px 16px; flex-wrap:wrap; gap:10px; }
